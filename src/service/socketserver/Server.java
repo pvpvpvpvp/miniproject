@@ -1,6 +1,7 @@
 package service.socketserver;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -14,6 +15,12 @@ public class Server {
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
+
+                InetAddress inetAddr = clientSocket.getInetAddress();
+                System.out.println("[Connected] Client Address : " + inetAddr.getHostAddress());
+
+                EchoThread echoThread = new EchoThread(clientSocket);
+                echoThread.start();
 
             }
         } catch (IOException e) {

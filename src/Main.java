@@ -1,4 +1,5 @@
 import banner.Banner;
+import service.socketserver.Server;
 import service.userList.UserList;
 import service.userjoin.UserJoinImpl;
 
@@ -6,8 +7,10 @@ import java.util.Scanner;
 
 public class Main {
     private static boolean isStarted = true;
+    private static final Server server = new Server();
 
     public static void main(String[] args) {
+        server.StartServer();
         showMenu();
     }
 
@@ -15,7 +18,7 @@ public class Main {
         UserList userList = new UserList();
         UserJoinImpl userJoin = new UserJoinImpl();
         int menu;
-    // 테스트
+
 
         Scanner sc = new Scanner(System.in);
         showBanner();
