@@ -15,7 +15,7 @@ public class Main {
         UserList userList = new UserList();
         UserJoinImpl userJoin = new UserJoinImpl();
         int menu;
-
+    // 테스트
 
         Scanner sc = new Scanner(System.in);
         showBanner();
