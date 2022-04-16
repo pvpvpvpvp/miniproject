@@ -38,9 +38,9 @@ public class EchoServer {
         BufferedReader br = new BufferedReader(inR);
 
         //파일 넣기
-        OutputStream outS = new FileOutputStream("MyData.bin");
+        OutputStream outS = new FileOutputStream("member.txt");
         BufferedOutputStream bOut = new BufferedOutputStream(outS);
-        DataOutputStream dOut = new DataOutputStream(bOut);
+        PrintWriter pw01 = new PrintWriter(outW);
 
         // 4) 송수신
         while(true) {
@@ -54,6 +54,7 @@ public class EchoServer {
             }
 
             System.out.println("Received : " + line);
+            pw01.write(line);
             pw.println(line);	// 클라이언트에 그래도 돌려줌
             pw.flush();			// 버퍼에 저장된 데이터를 즉시 전송해라
         }
