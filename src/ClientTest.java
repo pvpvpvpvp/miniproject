@@ -11,7 +11,7 @@ public class ClientTest {
             // 1. 소켓 생성과 동시에 서버와 연결
             Socket clientSocket = new Socket(IP, PORT);
 
-            // 2. 키보드 입력 받을 스트림 생성
+            // 2. 키보드 입력 받을 스트림 생성a
             InputStreamReader inK = new InputStreamReader(System.in);
             BufferedReader keyboard = new BufferedReader(inK);
 
