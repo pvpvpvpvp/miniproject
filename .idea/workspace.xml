@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ddfe29e9-1c06-43db-9c8c-74093fb68da9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/description.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/project-template.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CreateTestFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/banner/Banner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/user/UserData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/user/UserJoinData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/socketserver/EchoThread.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/socketserver/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/userList/UserList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/userjoin/CharNumRegExp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/userjoin/PwRegExp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/userjoin/UserJoin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/userjoin/UserJoinImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/userRepo.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="27v7fWZJw7MyaX46bQkXNY9oxy8" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ddfe29e9-1c06-43db-9c8c-74093fb68da9" name="Changes" comment="" />
+      <created>1650188810011</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650188810011</updated>
+    </task>
+    <servers />
+  </component>
+</project>
