@@ -22,8 +22,8 @@ import java.net.UnknownHostException;
 public class EchoClient {
     public static void main(String[] args) throws UnknownHostException, IOException {
 
-        Pratice pratice = new Pratice();
-        Member member = Pratice.Re();
+//        Pratice pratice = new Pratice();
+//        Member member = Pratice.Re();
 
 //		1)서버에 접속할 소켓 생성(휴대폰 개통)
 //		127.0.0.1은 loop address라고 해서 외부망으로 나가지 말고
@@ -47,9 +47,9 @@ public class EchoClient {
 
 
         //연습
-        System.out.printf(member.getId());
-        pw.write(member.getId());
-        pw.flush();
+//        System.out.printf(member.getId());
+//        pw.write(member.getId());
+//        pw.flush();
 
 //		4) 사용자의 입력한 데이터를 서버로 전송하고,
 //		   서버가 echo한 데이터를 수신해서 콘솔에 보여준다.
@@ -65,8 +65,6 @@ public class EchoClient {
             System.out.println("server Sended : " + line);
             pw.println(line);
             pw.flush();
-
-
 
             //서버의 echo데이터 수신
             String echo = br.readLine();

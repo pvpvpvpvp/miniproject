@@ -40,7 +40,7 @@ public class EchoServer {
         //파일 넣기
         OutputStream outS = new FileOutputStream("member.txt");
         BufferedOutputStream bOut = new BufferedOutputStream(outS);
-        PrintWriter pw01 = new PrintWriter(outW);
+        PrintWriter pw01 = new PrintWriter(bOut);
 
         // 4) 송수신
         while(true) {
@@ -54,9 +54,12 @@ public class EchoServer {
             }
 
             System.out.println("Received : " + line);
-            pw01.write(line);
+
             pw.println(line);	// 클라이언트에 그래도 돌려줌
             pw.flush();			// 버퍼에 저장된 데이터를 즉시 전송해라
+
+            pw01.println(line);
+            pw01.flush();
         }
 
         // 5) 스트림 종료
