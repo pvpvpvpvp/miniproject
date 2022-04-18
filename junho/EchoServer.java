@@ -38,7 +38,7 @@ public class EchoServer {
         BufferedReader br = new BufferedReader(inR);
 
         //파일 넣기
-        OutputStream outS = new FileOutputStream("member.txt");
+        OutputStream outS = new FileOutputStream("member.txt",true);
         BufferedOutputStream bOut = new BufferedOutputStream(outS);
         PrintWriter pw01 = new PrintWriter(bOut);
 

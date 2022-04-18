@@ -1,11 +1,15 @@
 package junho;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 
 public class Pratice {
 
 //    private static Map<Long, Member> store = new HashMap<>();
+
+    static Queue<String> queue = new LinkedList<>();
 
     public static Member member;
 
@@ -28,10 +32,11 @@ public class Pratice {
 
         }
     }
-    static Member Re(){
-        return member;
+
+    static Queue<String> Re(){
+        return queue;
     }
-    static Member join() {
+     Member join() {
 
         Scanner sc = new Scanner(System.in);
         System.out.print("아이디를 입력하세요 특수 문자제외 숫자,알파벳 한자씩 포함 8~16자리 아이디 : ");
@@ -68,8 +73,8 @@ public class Pratice {
             }
         }
         member = new Member(id, pass1, pass2);
-        System.out.println("아이디 : " + member.getId() + "비번1 : " + member.getPass1() + "비번2 : " + member.getPass2());
-
+        System.out.println("아이디 : " + member.getId() + " 비번1 : " + member.getPass1() + " 비번2 : " + member.getPass2());
+        queue.offer(member.getId());
         return member;
 
 

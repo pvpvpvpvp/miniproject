@@ -9,6 +9,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Queue;
+
+import static junho.Pratice.member;
 /*
 클라이언트는 서버보다 훨씬 단순하다
 1) 서버의 주소(ip, port)를 가지고 소켓 생성
@@ -21,10 +24,11 @@ import java.net.UnknownHostException;
 
 public class EchoClient {
     public static void main(String[] args) throws UnknownHostException, IOException {
-
         Pratice pratice = new Pratice();
-        Member member = Pratice.Re();
         pratice.start();
+        Queue<String> members = pratice.Re();
+
+
 //		1)서버에 접속할 소켓 생성(휴대폰 개통)
 //		127.0.0.1은 loop address라고 해서 외부망으로 나가지 말고
 //		자신의 Host내에서 통신을 하겠다르는 의미의 ip주소
@@ -57,10 +61,11 @@ public class EchoClient {
 
 
         while(true) {
-
-            pw.println(member.getId());
+            while (!members.isEmpty()) {
+                pw.println(members.poll());
+            }
             pw.flush();
-            System.out.println("server Sended : " + member.getId());
+            System.out.println("server Sended : " + Pratice.member.getId());
 
 
             System.out.println("input >> ");
@@ -70,7 +75,7 @@ public class EchoClient {
                 break;
             }
             // 서버로 전송
-            System.out.println("server Sended : " + member.getId());
+            System.out.println("server Sended : " + Pratice.member.getId());
 
             //서버의 echo데이터 수신
             String echo = br.readLine();
