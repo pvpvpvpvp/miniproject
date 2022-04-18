@@ -1,35 +1,29 @@
-package mini1.controller.server;
+package controller.server;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import user.User;
+
+import java.io.*;
 import java.util.Scanner;
-
-import mini1.user.User;
 
 public class Onetime {
 	 
 	public static User user = new User();
+	public static String MENUACTION ="";
 
 	public Onetime() throws IOException {
-		
-
+//		String MENUACTION ="";
+		InputStreamReader ink = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(ink);
 		
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("안녕하세요?");
-		System.out.println("1번 회원가입 \n 2번 조회");
-		String key = sc.nextLine();
+		System.out.println("1번 회원가입 \n2번 조회 \n3번 종료");
+		String key ="";
+		key = br.readLine();
 		loop: 
 		while(true) {
-			System.out.println("안녕하세요?");
-			System.out.println("1번 회원가입 \n 2번 조회");
-			key = sc.nextLine();
+			
 			switch (key) {
 			case "1":
 				user=join(sc);
@@ -39,30 +33,26 @@ public class Onetime {
 				break;
 			case "2":
 				// 조회 
-				List();
-				break;
+				MENUACTION="LIST";
+				break loop;
+			case "3":
+				// 죵료
+				MENUACTION="EXIT";
+				break loop;
 			default:
 				break loop;
 			}
 		}
 		
-		sc.close();
+//		sc.close();
+//		br.close();
 		
 	}
-	public static void List() throws IOException {
-		InputStream in = new FileInputStream("user.txt");
-		BufferedInputStream bIn = new BufferedInputStream(in);
-		DataInputStream dIn = new DataInputStream(bIn);
-		
-		while(true) {
-			String list = dIn.readLine();
-			if (list==null) {
-				break;
-			}
-			user = user.Parser(list);
-			System.out.println(user.toString());
-		}
-			
+	public String MenuAction(){
+		return MENUACTION;
+	}
+	public void ResetMenuAction(){
+		MENUACTION="";
 	}
 	public static User join(Scanner sc) throws IOException { // 리턴 타입을 유저 객체로!
 //		System.out.println(user.toString());

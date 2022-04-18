@@ -1,4 +1,4 @@
-package mini1.user;
+package user;
 
 public class User {
 	//TODO : 유저 객체 만들기
@@ -7,7 +7,6 @@ public class User {
 	private String pw1;
 	
 	public User() {
-		
 	}
 	public User(String id,String pw0, String pw1){
 		setId(id);
@@ -40,15 +39,20 @@ public class User {
 		return user;
 	}
 	public String toPacket() {
-		String user = id+" "+pw0+" "+pw1;
+		String user = "DATA "+id+" "+pw0+" "+pw1;
+		return user;
+	}
+	public String toSave(){
+		String user =id+" "+pw0;
 		return user;
 	}
 	public User Parser(String data) {
 		String[] userData = new String[3];
 		userData = data.split(" ");	
-		User user = new User(userData[0],userData[1],userData[2]);
+		User user = new User(userData[1],userData[2],userData[3]);
 		return user;
 	}
+
 	
 	
 }
