@@ -1,4 +1,4 @@
-package banner;
+package domain.banner;
 
 public class Banner {
     private static StringBuilder sb;

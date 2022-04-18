@@ -4,21 +4,18 @@ import java.io.*;
 import java.net.Socket;
 
 public class ClientTest {
-    final static String IP = "127.0.0.1";
-    final static int PORT = 9090;
+    private final static String IP = "127.0.0.1";
+    private final static int PORT = 9010;
 
     public static void main(String[] args) {
         try {
-            // 1. 소켓 생성과 동시에 서버와 연결
             Socket clientSocket = new Socket(IP, PORT);
 
             System.out.println("[Connected] Server Address : " + IP);
 
-            // 2. 키보드 입력 받을 스트림 생성a
             InputStreamReader inK = new InputStreamReader(System.in);
             BufferedReader keyboard = new BufferedReader(inK);
 
-            // 3. 서버와 연결된 양방향 스트림 얻기
             OutputStream out = clientSocket.getOutputStream();
             OutputStreamWriter outW = new OutputStreamWriter(out);
             PrintWriter pw = new PrintWriter(outW);
@@ -42,7 +39,6 @@ public class ClientTest {
                 }
             }
 
-            // 5. quit 했으면 스트림 모두 종료
             keyboard.close();
             pw.close();
             br.close();

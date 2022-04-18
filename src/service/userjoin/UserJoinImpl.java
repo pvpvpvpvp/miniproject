@@ -3,7 +3,7 @@ package service.userjoin;
 import config.Config;
 import domain.user.UserData;
 import domain.user.UserJoinData;
-import service.userList.UserList;
+import repository.UserList;
 
 import java.util.ArrayList;
 import java.util.Scanner;

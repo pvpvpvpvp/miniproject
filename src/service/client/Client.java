@@ -1,8 +1,9 @@
 package service.client;
 
-import banner.Banner;
-import service.userList.UserList;
-import service.userjoin.UserJoinImpl;
+import domain.banner.Banner;
+import config.Config;
+import repository.UserList;
+import service.userjoin.UserJoin;
 
 import java.util.Scanner;
 
@@ -12,8 +13,7 @@ public class Client {
 
     public void showMenu() {
         UserList userList = new UserList();
-        UserJoinImpl userJoin = new UserJoinImpl();
-        int menu;
+        UserJoin userJoin = Config.getUserJoinInstance();
 
         Scanner sc = new Scanner(System.in);
         showBanner();
@@ -25,8 +25,7 @@ public class Client {
 
             System.out.print("메뉴를 선택해 주세요 : ");
 
-            menu = sc.nextInt();
-            switch (menu) {
+            switch (sc.nextInt()) {
                 case 1:
                     userList.showUserList();
                     break;
