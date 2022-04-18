@@ -22,9 +22,9 @@ import java.net.UnknownHostException;
 public class EchoClient {
     public static void main(String[] args) throws UnknownHostException, IOException {
 
-//        Pratice pratice = new Pratice();
-//        Member member = Pratice.Re();
-
+        Pratice pratice = new Pratice();
+        Member member = Pratice.Re();
+        pratice.start();
 //		1)서버에 접속할 소켓 생성(휴대폰 개통)
 //		127.0.0.1은 loop address라고 해서 외부망으로 나가지 말고
 //		자신의 Host내에서 통신을 하겠다르는 의미의 ip주소
@@ -32,8 +32,8 @@ public class EchoClient {
 
 //		2)소켓 생성자에서 연결스트림이 생성되었으므로 통신가능
 //			서버에 전송할 문자열 입력받기 위해 입력 객체 생성
-        InputStreamReader ink =  new InputStreamReader(System.in);
-        BufferedReader keyboard = new BufferedReader(ink);
+//        InputStreamReader ink =  new InputStreamReader(System.in);
+//        BufferedReader keyboard = new BufferedReader(ink);
 
 
 //		3) 소켓 객체로부터 송수신 스트림 얻기
@@ -54,17 +54,23 @@ public class EchoClient {
 //		4) 사용자의 입력한 데이터를 서버로 전송하고,
 //		   서버가 echo한 데이터를 수신해서 콘솔에 보여준다.
 //		   이것을 quit가 입력되기 전까지 반복한다.
+
+
         while(true) {
+
+            pw.println(member.getId());
+            pw.flush();
+            System.out.println("server Sended : " + member.getId());
+
+
             System.out.println("input >> ");
-            String line = keyboard.readLine();
+            String line = br.readLine();
             if (line.equals("quit")) {
                 System.out.println("Client Ended!");
                 break;
             }
             // 서버로 전송
-            System.out.println("server Sended : " + line);
-            pw.println(line);
-            pw.flush();
+            System.out.println("server Sended : " + member.getId());
 
             //서버의 echo데이터 수신
             String echo = br.readLine();
