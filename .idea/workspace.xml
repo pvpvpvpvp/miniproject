@@ -5,13 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33024c27-494a-4df8-baa2-45f56ef3eae9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/service/client/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/userRepo.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClientTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/socketserver/EchoThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/service/socketserver/EchoThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/socketserver/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/service/socketserver/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/userList/UserList.java" beforeDir="false" afterPath="$PROJECT_DIR$/service/userList/UserList.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -43,10 +56,30 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Application.Main (1)">
+  <component name="RunManager" selected="Application.CreateTestFile">
+    <configuration name="ClientTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ClientTest" />
+      <module name="MiniProject0421" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreateTestFile" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="fileio.ex08.bufferedwriter.CreateTestFile" />
+      <module name="MiniProject0421" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fileio.ex08.bufferedwriter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main (1)" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="miniproject" />
+      <module name="MiniProject0421" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -61,9 +94,13 @@
     <list>
       <item itemvalue="Application.Main (1)" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.ClientTest" />
+      <item itemvalue="Application.CreateTestFile" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CreateTestFile" />
+        <item itemvalue="Application.ClientTest" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>

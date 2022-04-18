@@ -23,17 +23,19 @@ public class EchoThread extends Thread{
             BufferedReader br = new BufferedReader(inR);
 
             StringBuilder sb = new StringBuilder();
-
+            String line;
             while (true) {
-                sb.setLength(0);
-                sb.append("[" + socket.getInetAddress() + "] ");
-                sb.append(br.readLine());
+                line = br.readLine();
 
-                if (br.readLine() == null) {
-                    System.out.println("[Disconnected] Client Address : " + socket.getInetAddress());
+                sb.setLength(0);
+                sb.append("[" + socket.getInetAddress().getHostAddress() + "] ");
+                sb.append(line);
+
+                if (line == null) {
+                    System.out.println("[Disconnected] Client Address : " + socket.getInetAddress().getHostAddress());
                     break;
                 }
-
+                System.out.println(sb.toString());
                 pw.println(sb.toString());
                 pw.flush();
             }

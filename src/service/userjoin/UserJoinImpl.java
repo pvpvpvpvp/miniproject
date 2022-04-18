@@ -1,6 +1,5 @@
 package service.userjoin;
 
-import com.sun.tools.javac.Main;
 import config.Config;
 import domain.user.UserData;
 import domain.user.UserJoinData;

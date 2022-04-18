@@ -48,6 +48,7 @@ public class UserList {
 
             while(true){
                 String line = bIn.readLine();
+
                 if(line==null){
                     break;
                 }

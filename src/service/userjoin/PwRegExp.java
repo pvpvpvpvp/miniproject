@@ -1,6 +1,5 @@
 package service.userjoin;
 
-import domain.user.UserData;
 import domain.user.UserJoinData;
 
 /**

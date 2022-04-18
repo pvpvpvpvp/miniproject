@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    private static final int PORT = 9000;
+    private static final int PORT = 9090;
 
     public void StartServer() {
         try {
