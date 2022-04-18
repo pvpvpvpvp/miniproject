@@ -42,17 +42,26 @@ public class EchoServer {
         BufferedOutputStream bOut = new BufferedOutputStream(outS);
         PrintWriter pw01 = new PrintWriter(bOut);
 
+        //파일 읽기
+        InputStream inFile = new FileInputStream("member.txt");
+        InputStreamReader inRF = new InputStreamReader(inFile);
+        BufferedReader brF = new BufferedReader(inRF);
+
+
+        String str;
+        while ((str=brF.readLine())!=null){
+            System.out.println(str);
+        }
+
         // 4) 송수신
         while(true) {
             // 클라이언트가 보내는 데이터를 기다리다가 도착하면 문자열 반환
             String line = br.readLine();
-
             // 만약 데이터를 기다리다가 null이 반환되었다면 연결이 끊어진 것임
             if(line == null) {
                 System.out.println("Client Disconnect!");
                 break;
             }
-
             System.out.println("Received : " + line);
 
             pw.println(line);	// 클라이언트에 그래도 돌려줌
@@ -61,6 +70,7 @@ public class EchoServer {
             pw01.println(line);
             pw01.flush();
         }
+
 
         // 5) 스트림 종료
         pw.close();

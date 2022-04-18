@@ -1,12 +1,6 @@
 package junho;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Queue;
@@ -50,10 +44,6 @@ public class EchoClient {
         BufferedReader br = new BufferedReader(inR);
 
 
-        //연습
-//        System.out.printf(member.getId());
-//        pw.write(member.getId());
-//        pw.flush();
 
 //		4) 사용자의 입력한 데이터를 서버로 전송하고,
 //		   서버가 echo한 데이터를 수신해서 콘솔에 보여준다.
@@ -62,10 +52,12 @@ public class EchoClient {
 
         while(true) {
             while (!members.isEmpty()) {
-                pw.println(members.poll());
+                String m = members.poll();
+                pw.println(m);
+                System.out.println("server Sended : " + m);
             }
             pw.flush();
-            System.out.println("server Sended : " + Pratice.member.getId());
+
 
 
             System.out.println("input >> ");
@@ -75,7 +67,7 @@ public class EchoClient {
                 break;
             }
             // 서버로 전송
-            System.out.println("server Sended : " + Pratice.member.getId());
+//            System.out.println("server Sended : " + Pratice.member.getId());
 
             //서버의 echo데이터 수신
             String echo = br.readLine();
