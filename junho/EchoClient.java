@@ -3,6 +3,7 @@ package junho;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Queue;
 
 import static junho.Pratice.member;
@@ -20,7 +21,8 @@ public class EchoClient {
     public static void main(String[] args) throws UnknownHostException, IOException {
         Pratice pratice = new Pratice();
         pratice.start();
-        Queue<String> members = pratice.Re();
+
+       List members = Pratice.Re();
 
 
 //		1)서버에 접속할 소켓 생성(휴대폰 개통)
@@ -51,8 +53,9 @@ public class EchoClient {
 
 
         while(true) {
-            while (!members.isEmpty()) {
-                String m = members.poll();
+
+            for (int i=0; i<members.size();i++){
+                String m = (String) members.get(i);
                 pw.println(m);
                 System.out.println("server Sended : " + m);
             }
@@ -60,7 +63,7 @@ public class EchoClient {
 
 
 
-            System.out.println("input >> ");
+//            System.out.println("input >> ");
             String line = br.readLine();
             if (line.equals("quit")) {
                 System.out.println("Client Ended!");

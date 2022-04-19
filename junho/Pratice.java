@@ -1,29 +1,40 @@
 package junho;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 
 public class Pratice {
 
 //    private static Map<Long, Member> store = new HashMap<>();
 
-    static Queue<String> queue = new LinkedList<>();
+//    static Queue<String> queue = new LinkedList<>();
+    static List queue = new ArrayList();
 
     public static Member member;
 
-    void start(){
+    void start() throws IOException {
         Scanner sc = new Scanner(System.in);
+        List members = new ArrayList();
+
+
         boolean check = true;
         while (check) {
-            System.out.println("1. 회원 가입 | 2.종료 | ");
+            System.out.println("1. 회원 가입 | 2.멤버 조회 | 3.특정 아이디 제거 | 4.종료 | ");
             String command = sc.nextLine();
             switch (command) {
                 case "1":
                     join();
                     break;
                 case "2":
+                    System.out.println("member 조회 ");
+                    member_search(members);
+                    break;
+                case "3":
+                    System.out.println("제거할 아이디를 적어주세요 : ");
+                    member_remove(sc, members);
+                    break;
+                case "4":
                     System.out.println("종료 하겠습니다.");
                     check=false;
                     sc.close();
@@ -33,7 +44,49 @@ public class Pratice {
         }
     }
 
-    static Queue<String> Re(){
+    private void member_remove(Scanner sc, List members) throws IOException {
+        InputStream inFile = new FileInputStream("member.txt");
+        InputStreamReader inRF = new InputStreamReader(inFile);
+        BufferedReader brF = new BufferedReader(inRF);
+
+
+        OutputStream outS = new FileOutputStream("member.txt");
+        BufferedOutputStream bOut = new BufferedOutputStream(outS);
+        PrintWriter pw01 = new PrintWriter(bOut);
+
+        String id = sc.nextLine();
+        String str;
+        while ((str = brF.readLine())!=null){
+            if (!str.equals(id)) {
+                pw01.write(str);
+            }
+        }
+
+        for (int i=0; i< queue.size(); i++){
+            pw01.write((String) queue.get(i));
+        }
+        members.remove(id);
+    }
+
+    private void member_search(List members) throws IOException {
+        InputStream inFile = new FileInputStream("member.txt");
+        InputStreamReader inRF = new InputStreamReader(inFile);
+        BufferedReader brF = new BufferedReader(inRF);
+
+        String str;
+        while ((str = brF.readLine())!=null){
+            System.out.println(str);
+        }
+
+        for (int i=0; i< queue.size(); i++){
+            System.out.println(queue.get(i));
+        }
+//        while(!members.isEmpty()){
+//            System.out.println(members.poll());
+//        }
+    }
+
+    static List Re(){
         return queue;
     }
      Member join() {
@@ -74,7 +127,7 @@ public class Pratice {
         }
         member = new Member(id, pass1, pass2);
         System.out.println("아이디 : " + member.getId() + " 비번1 : " + member.getPass1() + " 비번2 : " + member.getPass2());
-        queue.offer(member.getId());
+        queue.add(member.getId());
         return member;
 
 

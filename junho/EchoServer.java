@@ -9,6 +9,7 @@ import java.net.Socket;
 //2. 서버는 해당 파일을 연결한 후 클라이언트에 전송한다.
 //3. 전송이 끝나면 통신을 해제한다.
 public class EchoServer {
+
     public static void main(String[] args) throws IOException {
         // 1) 소켓 생성(휴대폰 구매)
         //    ip/port가 필요한데
@@ -47,12 +48,10 @@ public class EchoServer {
         InputStreamReader inRF = new InputStreamReader(inFile);
         BufferedReader brF = new BufferedReader(inRF);
 
-
         String str;
         while ((str=brF.readLine())!=null){
             System.out.println(str);
         }
-
         // 4) 송수신
         while(true) {
             // 클라이언트가 보내는 데이터를 기다리다가 도착하면 문자열 반환
@@ -77,5 +76,7 @@ public class EchoServer {
         br.close();
         System.out.println("client - server Ended!");
     }
+
+
 
 }
