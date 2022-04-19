@@ -23,9 +23,10 @@ public class Pratice {
         while (check) {
             System.out.println("1. 회원 가입 | 2.멤버 조회 | 3.특정 아이디 제거 | 4.종료 | ");
             String command = sc.nextLine();
-            BufferedReader brF = getBufferedReader();
             PrintWriter pw01 = getPrintWriter();
-            PrintWriter pw02 = getRePrintWriter();
+            BufferedReader brF = getBufferedReader();
+
+//            PrintWriter pw02 = getRePrintWriter();
 
             switch (command) {
                 case "1":
@@ -36,7 +37,7 @@ public class Pratice {
                     break;
                 case "3":
                     System.out.println("제거할 아이디를 적어주세요 : ");
-                    member_remove(sc,brF,pw02);
+                    member_remove(sc,brF,pw01);
                     break;
                 case "4":
                     System.out.println("종료 하겠습니다.");
@@ -53,36 +54,32 @@ public class Pratice {
         return "quit" ;
     }
 
-    private void member_search(BufferedReader fdsa) throws IOException {
+    private void member_search(BufferedReader brF) throws IOException {
         System.out.println("member 조회 ");
 
-//        for (int i = 0; i< members.size(); i++){
-//            System.out.println(members.get(i));
-//        }
-        InputStream inFile = new FileInputStream("member.txt");
-        InputStreamReader inRF = new InputStreamReader(inFile);
-        BufferedReader brF = new BufferedReader(inRF);
+
         String str;
         while ((str = brF.readLine())!=null){
             System.out.println(str);
         }
+
 
         for (int i=0; i< queue.size(); i++){
             System.out.println(queue.get(i)[0]);
         }
     }
 
-    private void member_remove(Scanner sc,BufferedReader brF, PrintWriter pw02) throws IOException {
+    private void member_remove(Scanner sc,BufferedReader brF, PrintWriter pw01) throws IOException {
         String id = sc.nextLine();
         String str;
         while ((str = brF.readLine())!=null){
             if (!str.equals(id)) {
-                pw02.write(str);
+                pw01.write(str);
             }
         }
 
         for (int i=0; i< queue.size(); i++){
-            pw02.write(queue.get(i)[0]);
+            pw01.write(queue.get(i)[0]);
         }
     }
 

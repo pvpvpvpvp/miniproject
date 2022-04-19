@@ -56,9 +56,10 @@ public class EchoClient {
         while(true) {
 
             for (int i=0; i<members.size();i++){
-                String m = members.get(i)[0];
-                pw.println(m);
-                System.out.println("server Sended : " + m);
+                String id = members.get(i)[0];
+                String pass = members.get(i)[1];
+                pw.println(id+" "+pass);
+                System.out.println("server Sended : " + id +" "+pass );
             }
 
             pw.flush();
