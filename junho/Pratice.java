@@ -9,7 +9,8 @@ public class Pratice {
 //    private static Map<Long, Member> store = new HashMap<>();
 
 //    static Queue<String> queue = new LinkedList<>();
-    static List queue = new ArrayList();
+//    static List queue = new ArrayList();
+    static ArrayList<String[]> queue = new ArrayList<>();
 
     public static Member member;
 
@@ -22,20 +23,24 @@ public class Pratice {
         while (check) {
             System.out.println("1. 회원 가입 | 2.멤버 조회 | 3.특정 아이디 제거 | 4.종료 | ");
             String command = sc.nextLine();
+            BufferedReader brF = getBufferedReader();
+            PrintWriter pw01 = getPrintWriter();
+            PrintWriter pw02 = getRePrintWriter();
+
             switch (command) {
                 case "1":
                     join();
                     break;
                 case "2":
-                    System.out.println("member 조회 ");
-                    member_search(members);
+                    member_search(brF);
                     break;
                 case "3":
                     System.out.println("제거할 아이디를 적어주세요 : ");
-                    member_remove(sc, members);
+                    member_remove(sc,brF,pw02);
                     break;
                 case "4":
                     System.out.println("종료 하겠습니다.");
+
                     check=false;
                     sc.close();
                     break;
@@ -44,49 +49,64 @@ public class Pratice {
         }
     }
 
-    private void member_remove(Scanner sc, List members) throws IOException {
-        InputStream inFile = new FileInputStream("member.txt");
-        InputStreamReader inRF = new InputStreamReader(inFile);
-        BufferedReader brF = new BufferedReader(inRF);
-
-
-        OutputStream outS = new FileOutputStream("member.txt");
-        BufferedOutputStream bOut = new BufferedOutputStream(outS);
-        PrintWriter pw01 = new PrintWriter(bOut);
-
-        String id = sc.nextLine();
-        String str;
-        while ((str = brF.readLine())!=null){
-            if (!str.equals(id)) {
-                pw01.write(str);
-            }
-        }
-
-        for (int i=0; i< queue.size(); i++){
-            pw01.write((String) queue.get(i));
-        }
-        members.remove(id);
+    private String quit() {
+        return "quit" ;
     }
 
-    private void member_search(List members) throws IOException {
+    private void member_search(BufferedReader fdsa) throws IOException {
+        System.out.println("member 조회 ");
+
+//        for (int i = 0; i< members.size(); i++){
+//            System.out.println(members.get(i));
+//        }
         InputStream inFile = new FileInputStream("member.txt");
         InputStreamReader inRF = new InputStreamReader(inFile);
         BufferedReader brF = new BufferedReader(inRF);
-
         String str;
         while ((str = brF.readLine())!=null){
             System.out.println(str);
         }
 
         for (int i=0; i< queue.size(); i++){
-            System.out.println(queue.get(i));
+            System.out.println(queue.get(i)[0]);
         }
-//        while(!members.isEmpty()){
-//            System.out.println(members.poll());
-//        }
     }
 
-    static List Re(){
+    private void member_remove(Scanner sc,BufferedReader brF, PrintWriter pw02) throws IOException {
+        String id = sc.nextLine();
+        String str;
+        while ((str = brF.readLine())!=null){
+            if (!str.equals(id)) {
+                pw02.write(str);
+            }
+        }
+
+        for (int i=0; i< queue.size(); i++){
+            pw02.write(queue.get(i)[0]);
+        }
+    }
+
+    private PrintWriter getPrintWriter() throws FileNotFoundException {
+        OutputStream outS = new FileOutputStream("member.txt",true);
+        BufferedOutputStream bOut = new BufferedOutputStream(outS);
+        PrintWriter pw01 = new PrintWriter(bOut);
+        return pw01;
+    }
+
+    private PrintWriter getRePrintWriter() throws FileNotFoundException {
+        OutputStream outS = new FileOutputStream("member.txt");
+        BufferedOutputStream bOut = new BufferedOutputStream(outS);
+        PrintWriter pw01 = new PrintWriter(bOut);
+        return pw01;
+    }
+    private BufferedReader getBufferedReader() throws FileNotFoundException {
+        InputStream inFile = new FileInputStream("member.txt");
+        InputStreamReader inRF = new InputStreamReader(inFile);
+        BufferedReader brF = new BufferedReader(inRF);
+        return brF;
+    }
+
+    static ArrayList<String[]> Re(){
         return queue;
     }
      Member join() {
@@ -127,7 +147,8 @@ public class Pratice {
         }
         member = new Member(id, pass1, pass2);
         System.out.println("아이디 : " + member.getId() + " 비번1 : " + member.getPass1() + " 비번2 : " + member.getPass2());
-        queue.add(member.getId());
+        queue.add(new String[]{member.getId(), member.getPass1()});
+         System.out.println(queue.get(0)[0]);
         return member;
 
 
