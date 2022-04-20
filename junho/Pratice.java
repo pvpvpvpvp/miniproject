@@ -23,8 +23,8 @@ public class Pratice {
         while (check) {
             System.out.println("1. 회원 가입 | 2.멤버 조회 | 3.특정 아이디 제거 | 4.종료 | ");
             String command = sc.nextLine();
-            PrintWriter pw01 = getPrintWriter();
-            BufferedReader brF = getBufferedReader();
+//            PrintWriter pw01;
+            BufferedReader brF;
 
 //            PrintWriter pw02 = getRePrintWriter();
 
@@ -33,15 +33,16 @@ public class Pratice {
                     join();
                     break;
                 case "2":
+                    brF = getBufferedReader();
                     member_search(brF);
                     break;
                 case "3":
                     System.out.println("제거할 아이디를 적어주세요 : ");
-                    member_remove(sc,brF,pw01);
+                    brF = getBufferedReader();
+                    member_remove(sc,brF);
                     break;
                 case "4":
                     System.out.println("종료 하겠습니다.");
-
                     check=false;
                     sc.close();
                     break;
@@ -57,29 +58,39 @@ public class Pratice {
     private void member_search(BufferedReader brF) throws IOException {
         System.out.println("member 조회 ");
 
-
         String str;
         while ((str = brF.readLine())!=null){
-            System.out.println(str);
+            String[] member = str.split(" ");
+            System.out.println(member[0]);
         }
-
 
         for (int i=0; i< queue.size(); i++){
             System.out.println(queue.get(i)[0]);
         }
     }
 
-    private void member_remove(Scanner sc,BufferedReader brF, PrintWriter pw01) throws IOException {
+    private void member_remove(Scanner sc,BufferedReader brF) throws IOException {
         String id = sc.nextLine();
+
+        List box = new ArrayList();
         String str;
         while ((str = brF.readLine())!=null){
-            if (!str.equals(id)) {
-                pw01.write(str);
+            String[] member = str.split(" ");
+
+            if (!member[0].equals(id)) {
+                box.add(member[0]+" "+member[1]);
             }
         }
 
+        PrintWriter pw02 = getRePrintWriter();
+        for(int i=0; i<box.size(); i++){
+            System.out.println(box.get(i));
+            pw02.println((String) box.get(i));
+            pw02.flush();
+        }
+
         for (int i=0; i< queue.size(); i++){
-            pw01.write(queue.get(i)[0]);
+            pw02.println(queue.get(i)[0]+" "+queue.get(i)[1]);
         }
     }
 
