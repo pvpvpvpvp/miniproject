@@ -1,9 +1,10 @@
-package service.userjoin;
+package service.user;
 
 import domain.user.UserJoinData;
 
 public interface UserJoin {
-    void join();
+    void userJoin();
+
     boolean userIdIsDuplicate(UserJoinData userJoinData);
 
 }

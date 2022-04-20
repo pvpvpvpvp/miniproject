@@ -1,4 +1,4 @@
-import service.socketserver.Server;
+import socketserver.Server;
 
 public class Main {
     private static final Server SERVER = new Server();

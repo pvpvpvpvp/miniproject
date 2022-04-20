@@ -1,13 +1,22 @@
-import service.client.Client;
+import client.Client;
 
 import java.io.*;
 import java.net.Socket;
 
-public class ClientTest {
+public class ClientTest{
+
+    public static void main(String[] args) {
+        new Thread(new ClientThread()).start();
+    }
+
+}
+
+class ClientThread implements Runnable {
     private final static String IP = "127.0.0.1";
     private final static int PORT = 9010;
 
-    public static void main(String[] args) {
+    @Override
+    public void run() {
         try {
             Socket clientSocket = new Socket(IP, PORT);
 
@@ -46,5 +55,5 @@ public class ClientTest {
             e.printStackTrace();
         }
     }
-
 }
+

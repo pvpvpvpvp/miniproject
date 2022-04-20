@@ -1,19 +1,23 @@
-package service.client;
+package client;
 
-import domain.banner.Banner;
+import banner.Banner;
 import config.Config;
 import repository.UserList;
-import service.userjoin.UserJoin;
+import service.user.UserDel;
+import service.user.UserDelImpl;
+import service.user.UserJoin;
 
 import java.util.Scanner;
 
-public class Client {
-    private boolean isStarted = false;
+public class Client{
     public static boolean flag = true;
 
+    private boolean isStarted = false;
+    private UserList userList = new UserList();
+    private UserJoin userJoin = Config.getUserJoinInstance();
+    private UserDel userDel = Config.getUserDelInstance();
+
     public void showMenu() {
-        UserList userList = new UserList();
-        UserJoin userJoin = Config.getUserJoinInstance();
 
         Scanner sc = new Scanner(System.in);
         showBanner();
@@ -21,7 +25,8 @@ public class Client {
         while (flag) {
             System.out.println("1. 회원 목록 조회");
             System.out.println("2. 회원 가입");
-            System.out.println("3. 종료");
+            System.out.println("3. 회원 삭제");
+            System.out.println("4. 종료");
 
             System.out.print("메뉴를 선택해 주세요 : ");
 
@@ -30,9 +35,12 @@ public class Client {
                     userList.showUserList();
                     break;
                 case 2:
-                    userJoin.join();
+                    userJoin.userJoin();
                     break;
                 case 3:
+                    userDel.userDel();
+                    break;
+                case 4:
                     flag = false;
                     break;
             }

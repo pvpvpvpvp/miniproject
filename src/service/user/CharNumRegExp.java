@@ -1,4 +1,4 @@
-package service.userjoin;
+package service.user;
 
 import domain.user.UserJoinData;
 

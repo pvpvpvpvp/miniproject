@@ -1,14 +1,13 @@
 package config;
 
-import service.userjoin.CharNumRegExp;
-import service.userjoin.PwRegExp;
-import service.userjoin.UserJoin;
-import service.userjoin.UserJoinImpl;
+import service.user.*;
 
 public class Config {
     public static PwRegExp pwRegExpInstance;
     public static UserJoin userJoinInstance;
+    public static UserDel userDelInstance;
     public static final String USER_REPO = "userRepo.txt";
+    public static final String USER_INDEX = "index.txt";
 
     private Config() {
 
@@ -28,6 +27,14 @@ public class Config {
         }
 
         return userJoinInstance;
+    }
+
+    public static UserDel getUserDelInstance() {
+        if (userDelInstance == null) {
+            userDelInstance = new UserDelImpl();
+        }
+
+        return userDelInstance;
     }
 
 }

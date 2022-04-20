@@ -1,4 +1,4 @@
-package service.socketserver;
+package socketserver;
 
 import java.io.*;
 import java.net.Socket;

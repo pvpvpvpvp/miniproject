@@ -11,7 +11,6 @@ public class UserList {
     public ArrayList<UserData> getUserList() {
 
         ArrayList<UserData> userDataList = new ArrayList<>();
-        UserData userData = new UserData();
 
         try {
             Reader in = new FileReader(Config.USER_REPO);
@@ -26,11 +25,16 @@ public class UserList {
 
                 String[] splitLine = line.split("/");
 
+                UserData userData = new UserData();
+
+                userData.setIndex(Long.parseLong(splitLine[0]));
                 userData.setId(splitLine[1]);
                 userData.setPw(splitLine[2]);
 
                 userDataList.add(userData);
             }
+
+            bIn.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -60,6 +64,8 @@ public class UserList {
 
                 System.out.printf("%-3s | %-3s | %-3s \n", splitLine[0], splitLine[1], splitLine[2]);
             }
+
+            bIn.close();
 
             System.out.println();
 

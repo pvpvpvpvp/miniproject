@@ -1,25 +1,19 @@
 package domain.user;
 
 public class UserData {
-    private Long sequence;
+    private Long index;
     private String id;
     private String pw;
 
     public UserData() {
     }
 
-    public UserData(Long sequence, String id, String pw) {
-        this.sequence = sequence;
-        this.id = id;
-        this.pw = pw;
+    public Long getIndex() {
+        return index;
     }
 
-    public Long getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(Long sequence) {
-        this.sequence = sequence;
+    public void setIndex(Long index) {
+        this.index = index;
     }
 
     public String getId() {
