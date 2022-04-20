@@ -14,7 +14,7 @@ public class Onetime {
 	public Onetime(Scanner sc) throws IOException {
 
 		System.out.println("안녕하세요?");
-		System.out.println("1번 회원가입 \n2번 조회 \n3번 삭제\n4번 수정\n5번 종료");
+		System.out.println("1번 회원가입 \n2번 조회 \n3번 삭제\n4번 비밀번호 변경\n5번 종료");
 		String key ="";
 		key = sc.nextLine();
 		loop: 
@@ -64,26 +64,30 @@ public class Onetime {
 			}
 		}
 		if(user.getPw0()==null) {
-			System.out.println("비밀번호를 입력해주세요!");
-			String passwd0 = sc.nextLine(); // 나중에 아이디는 객체화
-			String passwdPatten = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,16}$";// 정규식 적을것
-			boolean checkedPasswd0 =  passwd0.matches(passwdPatten);
-			if(checkedPasswd0) {
-				user.setPw0(passwd0);
-	//			System.out.println("통과~");
-			}else {
-				System.out.println("올바르지 비밀번호 형식입니다.!!");
-				return user;
-			}
-			System.out.println("다시 비밀번호를 입력해주세요!");
-			String passwd1= sc.nextLine(); // 나중에 아이디는 객체화
-			if(passwd0.equals(passwd1))
-			{
-				user.setPw1(passwd1);
-			}else {
-				System.out.println("처음 입력한 비밀번호와 다릅니다!");
-				user.setPw0(null);
-			}
+			return user=UserPasswd(sc);
+		}
+		return user;
+	}
+	public static User UserPasswd(Scanner sc){
+		System.out.println("비밀번호를 입력해주세요!");
+		String passwd0 = sc.nextLine(); // 나중에 아이디는 객체화
+		String passwdPatten = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,16}$";// 정규식 적을것
+		boolean checkedPasswd0 =  passwd0.matches(passwdPatten);
+		if(checkedPasswd0) {
+			user.setPw0(passwd0);
+			//			System.out.println("통과~");
+		}else {
+			System.out.println("올바르지 비밀번호 형식입니다.!!");
+			return user;
+		}
+		System.out.println("다시 비밀번호를 입력해주세요!");
+		String passwd1= sc.nextLine(); // 나중에 아이디는 객체화
+		if(passwd0.equals(passwd1))
+		{
+			user.setPw1(passwd1);
+		}else {
+			System.out.println("처음 입력한 비밀번호와 다릅니다!");
+			user.setPw0(null);
 		}
 		return user;
 	}

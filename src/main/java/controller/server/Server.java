@@ -90,8 +90,18 @@ class ServerAction extends Thread{
 						s3.join();
 						break;
 					case "UPDATE":
-
+						actionController = new ActionController(line,pwF,pw,DB);
+						UpdateSet updateSet = new UpdateSet(actionController);
+						Thread s4 = new Thread(updateSet);
+						s4.start();
+						s4.join();
 						break;
+					case "UPDATEDO":
+						actionController = new ActionController(line,pwF,pw,DB);
+						UpdateUser updateUser = new UpdateUser(actionController);
+						Thread s5 = new Thread(updateUser);
+						s5.start();
+						s5.join();
 					case "EXIT":
 
 						break;
@@ -106,6 +116,7 @@ class ServerAction extends Thread{
 class ActionController{
 	public User user = new User();
 	public String data;
+	public String id;
 	public PrintWriter pwf;
 	public PrintWriter pw;
 	public String DB;
@@ -117,6 +128,7 @@ class ActionController{
 	Object keySend = new Object();
 	Object keyLoad = new Object();
 	Object keyDelete = new Object();
+	Object keyUpdate = new Object();
 
 	ActionController(String data, PrintWriter pwf,PrintWriter pw,String DB){
 		this.data = data;
@@ -176,7 +188,7 @@ class ActionController{
 				System.out.println(data);
 				DBDATE.append("Index : " + (i + 1) + " USER : " + data + "\n");
 			}
-			pw.println("Page : " + (pageIndex + 1) + " LastPageIndex : " + ((ListLength / listLimit) + 1) + " listLimit : " + listLimit);
+			pw.println("Page : " + (pageIndex + 1) + " LastPageIndex : " + (((ListLength-1) / listLimit) + 1) + " listLimit : " + listLimit);
 			pw.println(DBDATE);
 			pw.println("LIST");
 			pw.flush();
@@ -201,6 +213,52 @@ class ActionController{
 			pw.flush();
 		}
 	}
+	void updateAuthCheck(){
+		System.out.println(data);
+		String[] user= data.split(" ");
+		boolean login = true;
+		if(user.length>1){
+			user=data.split(" ");
+			for (int i=0; i<caseDate.size();i++) {
+				if (caseDate.get(i).getId().equals(user[1])&&caseDate.get(i).getPw0().equals(user[2])) {
+					pw.println("UPDATE SET "+caseDate.get(i).getId());
+					pw.flush();
+					login=false;
+				}
+			}
+			if (login) {
+				pw.println("quit");
+				pw.flush();
+			}
+		}else {
+			pw.println("UPDATE");
+			pw.flush();
+		}
+
+	}
+	void updateUser() throws FileNotFoundException {
+		synchronized (keyUpdate){
+			OutputStream outfile = new FileOutputStream(DB);
+			BufferedOutputStream bFOut = new BufferedOutputStream(outfile);
+			PrintWriter pwf = new PrintWriter(bFOut);
+			System.out.println(data+" 업데이트를 위한 절차 진행");
+			String idd = data.split( " ")[1];
+			String pwd = data.split(" ")[2];
+			for (int i=0; i<caseDate.size();i++) {
+				if (caseDate.get(i).getId().equals(idd)) {
+					System.out.println("변경 진행"+pwd);
+					caseDate.get(i).setPw0(pwd);
+				}
+			}
+			for (int i=0; i<caseDate.size();i++) {
+				pwf.println(caseDate.get(i).toSave());
+				pwf.flush();
+			}
+			pw.println("UPDATE DONE");
+			pw.flush();
+		}
+	}
+
 }
 
 class TextSave implements Runnable{
@@ -234,7 +292,6 @@ class DeleteUser implements Runnable{
 	DeleteUser(ActionController actionController){
 		this.actionController = actionController;
 	}
-
 	@Override
 	public void run() {
 		try {
@@ -245,27 +302,34 @@ class DeleteUser implements Runnable{
 		}
 	}
 }
+class UpdateSet implements Runnable{
+	ActionController actionController;
+	UpdateSet(ActionController actionController){
+		this.actionController = actionController;
+	}
 
+	@Override
+	public void run() {
+		try {
+			actionController.loadDataWithIndex();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		actionController.updateAuthCheck();
+	}
+}
+class UpdateUser implements Runnable{
+	ActionController actionController;
+	UpdateUser(ActionController actionController){
+		this.actionController = actionController;
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public void run() {
+		try {
+			actionController.updateUser();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+}

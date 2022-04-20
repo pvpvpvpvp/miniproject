@@ -63,8 +63,24 @@ public class Client {
 						pw.println("DELETE "+answer);
 						pw.flush();
 					}
-					if(data.equals("DELETE DONE"))
+					if(data.equals("DELETE DONE")|data.equals("UPDATE DONE"))
 						break;
+					if (data.equals("UPDATE"))
+					{
+						System.out.println("아이디 입력해주세요");
+						String answer = sc.nextLine();
+						System.out.println("비밀번호를 입력해주세요");
+						answer+=" "+sc.nextLine();
+						pw.println("UPDATE "+answer);
+						pw.flush();
+					}
+					if (data.contains("UPDATE SET")){ // TODO 세션으로이나 JWT로 로그인 기능 구현해야됨.!
+						System.out.printf("변경할 ");
+						one.UserPasswd(sc);
+						user = one.Re();
+						pw.println("UPDATEDO "+data.split(" ")[2]+" "+user.getPw0());
+						pw.flush();
+					}
 				}
 				one.ResetMenuAction();// 값 리셋
 			}
