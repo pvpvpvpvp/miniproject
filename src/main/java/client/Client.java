@@ -78,6 +78,13 @@ public class Client {
 						System.out.printf("변경할 ");
 						one.UserPasswd(sc);
 						user = one.Re();
+						while (true) {
+							if (user.getPw0() == null) {
+								one.UserPasswd(sc);
+							}else {
+								break;
+							}
+						}
 						pw.println("UPDATEDO "+data.split(" ")[2]+" "+user.getPw0());
 						pw.flush();
 					}

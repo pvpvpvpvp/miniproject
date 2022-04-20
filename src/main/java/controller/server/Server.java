@@ -17,7 +17,6 @@ public class Server {
 	public static  List<User> caseDate;
 	public static void main(String[] args) throws IOException {
 		ServerSocket serverSocket = new ServerSocket(PORT);
-
 		while (true){
 			Socket conSocket = serverSocket.accept();
 			InetAddress inetAddr = conSocket.getInetAddress();
@@ -29,7 +28,6 @@ public class Server {
 }
 class ServerAction extends Thread{
 	public final static  String DB = "User.txt";
-	public static boolean lording = false;
 	private Socket socket;
 	private InetAddress inetAddr;
 
@@ -52,7 +50,6 @@ class ServerAction extends Thread{
 			InputStreamReader inR = new InputStreamReader(in);
 			BufferedReader br = new BufferedReader(inR);
 			ActionController actionController;
-//			LoadDataWithIndex(brF);
 			while (true) {
 				// 클라이언트가 보내온 전체 패킷을 수신
 				String line = br.readLine();
@@ -116,19 +113,16 @@ class ServerAction extends Thread{
 class ActionController{
 	public User user = new User();
 	public String data;
-	public String id;
 	public PrintWriter pwf;
 	public PrintWriter pw;
 	public String DB;
 	public int pageIndex,listLimit;
-
-	ActionController(){}
-
 	Object keySave = new Object();
 	Object keySend = new Object();
 	Object keyLoad = new Object();
 	Object keyDelete = new Object();
 	Object keyUpdate = new Object();
+	Object keyAuthCheck = new Object();
 
 	ActionController(String data, PrintWriter pwf,PrintWriter pw,String DB){
 		this.data = data;
@@ -213,28 +207,29 @@ class ActionController{
 			pw.flush();
 		}
 	}
+	// 유저의 아이디 비밀번호 체크 (유사 로그인)
 	void updateAuthCheck(){
-		System.out.println(data);
-		String[] user= data.split(" ");
-		boolean login = true;
-		if(user.length>1){
-			user=data.split(" ");
-			for (int i=0; i<caseDate.size();i++) {
-				if (caseDate.get(i).getId().equals(user[1])&&caseDate.get(i).getPw0().equals(user[2])) {
-					pw.println("UPDATE SET "+caseDate.get(i).getId());
-					pw.flush();
-					login=false;
+		synchronized (keyAuthCheck) {
+			String[] user = data.split(" ");
+			boolean login = true;
+			if (user.length > 1) {
+				user = data.split(" ");
+				for (int i = 0; i < caseDate.size(); i++) {
+					if (caseDate.get(i).getId().equals(user[1]) && caseDate.get(i).getPw0().equals(user[2])) {
+						pw.println("UPDATE SET " + caseDate.get(i).getId());
+						pw.flush();
+						login = false;
+					}
 				}
-			}
-			if (login) {
-				pw.println("quit");
+				if (login) {
+					pw.println("quit");
+					pw.flush();
+				}
+			} else {
+				pw.println("UPDATE");
 				pw.flush();
 			}
-		}else {
-			pw.println("UPDATE");
-			pw.flush();
 		}
-
 	}
 	void updateUser() throws FileNotFoundException {
 		synchronized (keyUpdate){
@@ -245,7 +240,7 @@ class ActionController{
 			String idd = data.split( " ")[1];
 			String pwd = data.split(" ")[2];
 			for (int i=0; i<caseDate.size();i++) {
-				if (caseDate.get(i).getId().equals(idd)) {
+				if (caseDate.get(i).getId().equals(idd)&&!(pwd==null)) {
 					System.out.println("변경 진행"+pwd);
 					caseDate.get(i).setPw0(pwd);
 				}
@@ -258,7 +253,6 @@ class ActionController{
 			pw.flush();
 		}
 	}
-
 }
 
 class TextSave implements Runnable{
