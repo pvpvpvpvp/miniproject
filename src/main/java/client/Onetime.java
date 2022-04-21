@@ -2,7 +2,7 @@ package controller.server;
 
 import user.User;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Onetime {
