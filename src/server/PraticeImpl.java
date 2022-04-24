@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class PraticeImpl implements Pratice {
+public class PraticeImpl implements Pratice,Runnable {
 
     public  Member member;
     public  Order order;
@@ -34,7 +34,7 @@ public class PraticeImpl implements Pratice {
 
     public static Connection dbConn;
     @Override
-    public void reserve(Member member) throws SQLException {
+    public void reserve(Member member)  throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("예약 날짜를 선택해 주세요");
@@ -119,4 +119,8 @@ public class PraticeImpl implements Pratice {
     }
 
 
+    @Override
+    public void run() {
+
+    }
 }
