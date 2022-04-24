@@ -1,0 +1,630 @@
+Index: junho/EchoServer.java
+===================================================================
+diff --git a/junho/EchoServer.java b/junho/EchoServer.java
+deleted file mode 100644
+--- a/junho/EchoServer.java	
++++ /dev/null	
+@@ -1,82 +0,0 @@
+-package junho;
+-
+-import java.io.*;
+-import java.net.InetAddress;
+-import java.net.ServerSocket;
+-import java.net.Socket;
+-
+-//1. 클라이언트가 서버에 파일을 요청한다(파일 이름 전송)
+-//2. 서버는 해당 파일을 연결한 후 클라이언트에 전송한다.
+-//3. 전송이 끝나면 통신을 해제한다.
+-public class EchoServer {
+-
+-    public static void main(String[] args) throws IOException {
+-        // 1) 소켓 생성(휴대폰 구매)
+-        //    ip/port가 필요한데
+-        //    ip는 현재 Host의 ip를 자동할당
+-        //    대신 port는 정해줘야 한다(9000)
+-        ServerSocket serverSocket = new ServerSocket(9000);
+-
+-        // 2) 클라이언트의 접속을 기다린다
+-        // accpet()를 호출하면 대기하고 있다가 클라이언트가 접속연결되면
+-        // accetp()는 클라이언트와 연결된 새로운 연결소켓을 반환한다
+-        System.out.println("Wait client...");
+-        Socket conSocket = serverSocket.accept();
+-
+-        // 2-1) 상대방의 연결정보 확인
+-        InetAddress inetAddr = conSocket.getInetAddress();
+-        System.out.println(inetAddr.getHostAddress() + " connect!");
+-
+-        // 3) 연결소켓으로 통신을 할 수 있다
+-        // 전송 스트림
+-        OutputStream out = conSocket.getOutputStream();
+-        OutputStreamWriter outW = new OutputStreamWriter(out);
+-        PrintWriter pw = new PrintWriter(outW);
+-
+-        // 수신 스트림
+-        InputStream in = conSocket.getInputStream();
+-        InputStreamReader inR = new InputStreamReader(in);
+-        BufferedReader br = new BufferedReader(inR);
+-
+-        //파일 넣기
+-        OutputStream outS = new FileOutputStream("member.txt",true);
+-        BufferedOutputStream bOut = new BufferedOutputStream(outS);
+-        PrintWriter pw01 = new PrintWriter(bOut);
+-
+-        //파일 읽기
+-        InputStream inFile = new FileInputStream("member.txt");
+-        InputStreamReader inRF = new InputStreamReader(inFile);
+-        BufferedReader brF = new BufferedReader(inRF);
+-
+-        String str;
+-        while ((str=brF.readLine())!=null){
+-            System.out.println(str);
+-        }
+-        // 4) 송수신
+-        while(true) {
+-            // 클라이언트가 보내는 데이터를 기다리다가 도착하면 문자열 반환
+-            String line = br.readLine();
+-            // 만약 데이터를 기다리다가 null이 반환되었다면 연결이 끊어진 것임
+-            if(line == null) {
+-                System.out.println("Client Disconnect!");
+-                break;
+-            }
+-            System.out.println("Received : " + line);
+-
+-            pw.println(line);	// 클라이언트에 그래도 돌려줌
+-            pw.flush();			// 버퍼에 저장된 데이터를 즉시 전송해라
+-
+-            pw01.println(line);
+-            pw01.flush();
+-        }
+-
+-
+-        // 5) 스트림 종료
+-        pw.close();
+-        br.close();
+-        System.out.println("client - server Ended!");
+-    }
+-
+-
+-
+-}
+\ No newline at end of file
+Index: miniproject.iml
+===================================================================
+diff --git a/miniproject.iml b/miniproject.iml
+deleted file mode 100644
+--- a/miniproject.iml	
++++ /dev/null	
+@@ -1,11 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$">
+-      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+-    </content>
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-  </component>
+-</module>
+\ No newline at end of file
+Index: junho/EchoClient.java
+===================================================================
+diff --git a/junho/EchoClient.java b/junho/EchoClient.java
+deleted file mode 100644
+--- a/junho/EchoClient.java	
++++ /dev/null	
+@@ -1,94 +0,0 @@
+-package junho;
+-
+-import java.io.*;
+-import java.net.Socket;
+-import java.net.UnknownHostException;
+-import java.util.ArrayList;
+-import java.util.List;
+-import java.util.Queue;
+-
+-import static junho.Pratice.member;
+-/*
+-클라이언트는 서버보다 훨씬 단순하다
+-1) 서버의 주소(ip, port)를 가지고 소켓 생성
+-	=> 생성자에서 connect를 진행함
+-2) 객체가 생성되었다면 연결이 되엇으므로 통신이 가능함
+-3) 서버가 Echo서버이므로 클라이언트가 보낸 데이터를 그대로 돌려줌
+-4) close()를 호출하면 연결된 스트림이 해제됨
+-*/
+-
+-
+-public class EchoClient {
+-    public static void main(String[] args) throws UnknownHostException, IOException {
+-        Pratice pratice = new Pratice();
+-        pratice.start();
+-
+-        ArrayList<String[]> members = Pratice.Re();
+-
+-
+-//		1)서버에 접속할 소켓 생성(휴대폰 개통)
+-//		127.0.0.1은 loop address라고 해서 외부망으로 나가지 말고
+-//		자신의 Host내에서 통신을 하겠다르는 의미의 ip주소
+-        Socket clientSocket = new Socket("127.0.0.1", 9000);
+-
+-//		2)소켓 생성자에서 연결스트림이 생성되었으므로 통신가능
+-//			서버에 전송할 문자열 입력받기 위해 입력 객체 생성
+-//        InputStreamReader ink =  new InputStreamReader(System.in);
+-//        BufferedReader keyboard = new BufferedReader(ink);
+-
+-
+-//		3) 소켓 객체로부터 송수신 스트림 얻기
+-        OutputStream out = clientSocket.getOutputStream();
+-        OutputStreamWriter outW = new OutputStreamWriter(out);
+-        PrintWriter pw = new PrintWriter(outW);
+-
+-        InputStream in = clientSocket.getInputStream();
+-        InputStreamReader inR = new InputStreamReader(in);
+-        BufferedReader br = new BufferedReader(inR);
+-
+-
+-
+-//		4) 사용자의 입력한 데이터를 서버로 전송하고,
+-//		   서버가 echo한 데이터를 수신해서 콘솔에 보여준다.
+-//		   이것을 quit가 입력되기 전까지 반복한다.
+-
+-
+-        while(true) {
+-
+-            for (int i=0; i<members.size();i++){
+-                String id = members.get(i)[0];
+-                String pass = members.get(i)[1];
+-                pw.println(id+" "+pass);
+-                System.out.println("server Sended : " + id +" "+pass );
+-            }
+-
+-            pw.flush();
+-
+-
+-
+-//            System.out.println("input >> ");
+-            String line = "quit";
+-//            String line = br.readLine();
+-            if (line.equals("quit")) {
+-                System.out.println("Client Ended!");
+-                break;
+-            }
+-            // 서버로 전송
+-//            System.out.println("server Sended : " + Pratice.member.getId());
+-
+-            //서버의 echo데이터 수신
+-//            String echo = br.readLine();
+-            String echo = line;
+-            if (echo==null) {
+-                System.out.println("Server Ended!");
+-                break;
+-            }
+-            System.out.println("Received Server : " + echo);
+-        }
+-//		5) 스트림 연결 종료
+-        pw.close();
+-        br.close();
+-    }
+-
+-
+-}
+\ No newline at end of file
+Index: .idea/compiler.xml
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+deleted file mode 100644
+--- a/.idea/compiler.xml	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="JavacSettings">
+-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+-      <module name="miniproject" options="--add-modules java.base" />
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: junho/Pratice.java
+===================================================================
+diff --git a/junho/Pratice.java b/junho/Pratice.java
+deleted file mode 100644
+--- a/junho/Pratice.java	
++++ /dev/null	
+@@ -1,169 +0,0 @@
+-package junho;
+-
+-import java.io.*;
+-import java.util.*;
+-
+-
+-public class Pratice {
+-
+-//    private static Map<Long, Member> store = new HashMap<>();
+-
+-//    static Queue<String> queue = new LinkedList<>();
+-//    static List queue = new ArrayList();
+-    static ArrayList<String[]> queue = new ArrayList<>();
+-
+-    public static Member member;
+-
+-    void start() throws IOException {
+-        Scanner sc = new Scanner(System.in);
+-        List members = new ArrayList();
+-
+-
+-        boolean check = true;
+-        while (check) {
+-            System.out.println("1. 회원 가입 | 2.멤버 조회 | 3.특정 아이디 제거 | 4.종료 | ");
+-            String command = sc.nextLine();
+-//            PrintWriter pw01;
+-            BufferedReader brF;
+-
+-//            PrintWriter pw02 = getRePrintWriter();
+-
+-            switch (command) {
+-                case "1":
+-                    join();
+-                    break;
+-                case "2":
+-                    brF = getBufferedReader();
+-                    member_search(brF);
+-                    break;
+-                case "3":
+-                    System.out.println("제거할 아이디를 적어주세요 : ");
+-                    brF = getBufferedReader();
+-                    member_remove(sc,brF);
+-                    break;
+-                case "4":
+-                    System.out.println("종료 하겠습니다.");
+-                    check=false;
+-                    sc.close();
+-                    break;
+-            }
+-
+-        }
+-    }
+-
+-    private String quit() {
+-        return "quit" ;
+-    }
+-
+-    private void member_search(BufferedReader brF) throws IOException {
+-        System.out.println("member 조회 ");
+-
+-        String str;
+-        while ((str = brF.readLine())!=null){
+-            String[] member = str.split(" ");
+-            System.out.println(member[0]);
+-        }
+-
+-        for (int i=0; i< queue.size(); i++){
+-            System.out.println(queue.get(i)[0]);
+-        }
+-    }
+-
+-    private void member_remove(Scanner sc,BufferedReader brF) throws IOException {
+-        String id = sc.nextLine();
+-
+-        List box = new ArrayList();
+-        String str;
+-        while ((str = brF.readLine())!=null){
+-            String[] member = str.split(" ");
+-
+-            if (!member[0].equals(id)) {
+-                box.add(member[0]+" "+member[1]);
+-            }
+-        }
+-
+-        PrintWriter pw02 = getRePrintWriter();
+-        for(int i=0; i<box.size(); i++){
+-            System.out.println(box.get(i));
+-            pw02.println((String) box.get(i));
+-            pw02.flush();
+-        }
+-
+-        for (int i=0; i< queue.size(); i++){
+-            pw02.println(queue.get(i)[0]+" "+queue.get(i)[1]);
+-        }
+-    }
+-
+-    private PrintWriter getPrintWriter() throws FileNotFoundException {
+-        OutputStream outS = new FileOutputStream("member.txt",true);
+-        BufferedOutputStream bOut = new BufferedOutputStream(outS);
+-        PrintWriter pw01 = new PrintWriter(bOut);
+-        return pw01;
+-    }
+-
+-    private PrintWriter getRePrintWriter() throws FileNotFoundException {
+-        OutputStream outS = new FileOutputStream("member.txt");
+-        BufferedOutputStream bOut = new BufferedOutputStream(outS);
+-        PrintWriter pw01 = new PrintWriter(bOut);
+-        return pw01;
+-    }
+-    private BufferedReader getBufferedReader() throws FileNotFoundException {
+-        InputStream inFile = new FileInputStream("member.txt");
+-        InputStreamReader inRF = new InputStreamReader(inFile);
+-        BufferedReader brF = new BufferedReader(inRF);
+-        return brF;
+-    }
+-
+-    static ArrayList<String[]> Re(){
+-        return queue;
+-    }
+-     Member join() {
+-
+-        Scanner sc = new Scanner(System.in);
+-        System.out.print("아이디를 입력하세요 특수 문자제외 숫자,알파벳 한자씩 포함 8~16자리 아이디 : ");
+-        String id = sc.nextLine();
+-
+-        while (true) {
+-            if (id.matches("^(?=.*\\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,16}$")) {
+-                break;
+-            }
+-            System.out.print("아이디를 입력하세요 특수 문자제외 숫자,알파벳 한자씩 포함 8~16자리 아이디 :");
+-
+-            id = sc.nextLine();
+-        }
+-        System.out.print("비밀번호를 입력하세요 8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합 ");
+-        String pass1 = sc.nextLine();
+-        String pass2;
+-        while (true) {
+-            while (true) {
+-                if (pass1.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,16}$")) {
+-                    break;
+-                }
+-                System.out.print("비밀번호를 입력하세요 8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합 ");
+-                pass1 = sc.nextLine();
+-            }
+-
+-            System.out.print("비밀전호 2차 확인 : ");
+-            pass2 = sc.nextLine();
+-            if (pass1.equals(pass2)) {
+-                break;
+-            } else {
+-                System.out.println("비밀번호 1차와 다릅니다.");
+-                System.out.print("비밀번호를 입력하세요 8 ~ 16자 영문, 숫자, 특수문자를 최소 한가지씩 조합 ");
+-                pass1 = sc.nextLine();
+-            }
+-        }
+-        member = new Member(id, pass1, pass2);
+-        System.out.println("아이디 : " + member.getId() + " 비번1 : " + member.getPass1() + " 비번2 : " + member.getPass2());
+-        queue.add(new String[]{member.getId(), member.getPass1()});
+-         System.out.println(queue.get(0)[0]);
+-        return member;
+-
+-
+-
+-
+-    }
+-
+-}
+-
+-
+Index: junho/Member.java
+===================================================================
+diff --git a/junho/Member.java b/junho/Member.java
+deleted file mode 100644
+--- a/junho/Member.java	
++++ /dev/null	
+@@ -1,35 +0,0 @@
+-package junho;
+-
+-public class Member {
+-    private String Id;
+-    private String pass1;
+-    private String pass2;
+-
+-    public  Member(){}
+-    public Member(String id, String pass1, String pass2) {
+-        super();
+-        Id = id;
+-        this.pass1 = pass1;
+-        this.pass2 = pass2;
+-    }
+-    public String getId() {
+-        return Id;
+-    }
+-    public void setId(String id) {
+-        Id = id;
+-    }
+-    public String getPass1() {
+-        return pass1;
+-    }
+-    public void setPass1(String pass1) {
+-        this.pass1 = pass1;
+-    }
+-    public String getPass2() {
+-        return pass2;
+-    }
+-    public void setPass2(String pass2) {
+-        this.pass2 = pass2;
+-    }
+-
+-
+-}
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+deleted file mode 100644
+--- a/README.md	
++++ /dev/null	
+@@ -1,1 +0,0 @@
+-# miniproject
+\ No newline at end of file
+Index: .idea/miniproject.iml
+===================================================================
+diff --git a/.idea/miniproject.iml b/.idea/miniproject.iml
+deleted file mode 100644
+--- a/.idea/miniproject.iml	
++++ /dev/null	
+@@ -1,11 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$">
+-      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+-    </content>
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-  </component>
+-</module>
+\ No newline at end of file
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\n# Created by https://www.toptal.com/developers/gitignore/api/java,intellij\r\n# Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij\r\n\r\n### Intellij ###\r\n# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider\r\n# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839\r\n\r\n# User-specific stuff\r\n.idea/**/workspace.xml\r\n.idea/**/tasks.xml\r\n.idea/**/usage.statistics.xml\r\n.idea/**/dictionaries\r\n.idea/**/shelf\r\n\r\n# AWS User-specific\r\n.idea/**/aws.xml\r\n\r\n# Generated files\r\n.idea/**/contentModel.xml\r\n\r\n# Sensitive or high-churn files\r\n.idea/**/dataSources/\r\n.idea/**/dataSources.ids\r\n.idea/**/dataSources.local.xml\r\n.idea/**/sqlDataSources.xml\r\n.idea/**/dynamic.xml\r\n.idea/**/uiDesigner.xml\r\n.idea/**/dbnavigator.xml\r\n\r\n# Gradle\r\n.idea/**/gradle.xml\r\n.idea/**/libraries\r\n\r\n# Gradle and Maven with auto-import\r\n# When using Gradle or Maven with auto-import, you should exclude module files,\r\n# since they will be recreated, and may cause churn.  Uncomment if using\r\n# auto-import.\r\n# .idea/artifacts\r\n# .idea/compiler.xml\r\n# .idea/jarRepositories.xml\r\n# .idea/modules.xml\r\n# .idea/*.iml\r\n# .idea/modules\r\n# *.iml\r\n# *.ipr\r\n\r\n# CMake\r\ncmake-build-*/\r\n\r\n# Mongo Explorer plugin\r\n.idea/**/mongoSettings.xml\r\n\r\n# File-based project format\r\n*.iws\r\n\r\n# IntelliJ\r\nout/\r\n\r\n# mpeltonen/sbt-idea plugin\r\n.idea_modules/\r\n\r\n# JIRA plugin\r\natlassian-ide-plugin.xml\r\n\r\n# Cursive Clojure plugin\r\n.idea/replstate.xml\r\n\r\n# SonarLint plugin\r\n.idea/sonarlint/\r\n\r\n# Crashlytics plugin (for Android Studio and IntelliJ)\r\ncom_crashlytics_export_strings.xml\r\ncrashlytics.properties\r\ncrashlytics-build.properties\r\nfabric.properties\r\n\r\n# Editor-based Rest Client\r\n.idea/httpRequests\r\n\r\n# Android studio 3.1+ serialized cache file\r\n.idea/caches/build_file_checksums.ser\r\n\r\n### Intellij Patch ###\r\n# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721\r\n\r\n# *.iml\r\n# modules.xml\r\n# .idea/misc.xml\r\n# *.ipr\r\n\r\n# Sonarlint plugin\r\n# https://plugins.jetbrains.com/plugin/7973-sonarlint\r\n.idea/**/sonarlint/\r\n\r\n# SonarQube Plugin\r\n# https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin\r\n.idea/**/sonarIssues.xml\r\n\r\n# Markdown Navigator plugin\r\n# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced\r\n.idea/**/markdown-navigator.xml\r\n.idea/**/markdown-navigator-enh.xml\r\n.idea/**/markdown-navigator/\r\n\r\n# Cache file creation bug\r\n# See https://youtrack.jetbrains.com/issue/JBR-2257\r\n.idea/$CACHE_FILE$\r\n\r\n# CodeStream plugin\r\n# https://plugins.jetbrains.com/plugin/12206-codestream\r\n.idea/codestream.xml\r\n\r\n### Java ###\r\n# Compiled class file\r\n*.class\r\n\r\n# Log file\r\n*.log\r\n\r\n# BlueJ files\r\n*.ctxt\r\n\r\n# Mobile Tools for Java (J2ME)\r\n.mtj.tmp/\r\n\r\n# Package Files #\r\n*.jar\r\n*.war\r\n*.nar\r\n*.ear\r\n*.zip\r\n*.tar.gz\r\n*.rar\r\n\r\n# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml\r\nhs_err_pid*\r\nreplay_pid*\r\n\r\n# End of https://www.toptal.com/developers/gitignore/api/java,intellij\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	
++++ b/.gitignore	
+@@ -1,140 +1,2 @@
+-
+-# Created by https://www.toptal.com/developers/gitignore/api/java,intellij
+-# Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij
+-
+-### Intellij ###
+-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+-
+-# User-specific stuff
+-.idea/**/workspace.xml
+-.idea/**/tasks.xml
+-.idea/**/usage.statistics.xml
+-.idea/**/dictionaries
+-.idea/**/shelf
+-
+-# AWS User-specific
+-.idea/**/aws.xml
+-
+-# Generated files
+-.idea/**/contentModel.xml
+-
+-# Sensitive or high-churn files
+-.idea/**/dataSources/
+-.idea/**/dataSources.ids
+-.idea/**/dataSources.local.xml
+-.idea/**/sqlDataSources.xml
+-.idea/**/dynamic.xml
+-.idea/**/uiDesigner.xml
+-.idea/**/dbnavigator.xml
+-
+-# Gradle
+-.idea/**/gradle.xml
+-.idea/**/libraries
+-
+-# Gradle and Maven with auto-import
+-# When using Gradle or Maven with auto-import, you should exclude module files,
+-# since they will be recreated, and may cause churn.  Uncomment if using
+-# auto-import.
+-# .idea/artifacts
+-# .idea/compiler.xml
+-# .idea/jarRepositories.xml
+-# .idea/modules.xml
+-# .idea/*.iml
+-# .idea/modules
+-# *.iml
+-# *.ipr
+-
+-# CMake
+-cmake-build-*/
+-
+-# Mongo Explorer plugin
+-.idea/**/mongoSettings.xml
+-
+-# File-based project format
+-*.iws
+-
+-# IntelliJ
+-out/
+-
+-# mpeltonen/sbt-idea plugin
+-.idea_modules/
+-
+-# JIRA plugin
+-atlassian-ide-plugin.xml
+-
+-# Cursive Clojure plugin
+-.idea/replstate.xml
+-
+-# SonarLint plugin
+-.idea/sonarlint/
+-
+-# Crashlytics plugin (for Android Studio and IntelliJ)
+-com_crashlytics_export_strings.xml
+-crashlytics.properties
+-crashlytics-build.properties
+-fabric.properties
+-
+-# Editor-based Rest Client
+-.idea/httpRequests
+-
+-# Android studio 3.1+ serialized cache file
+-.idea/caches/build_file_checksums.ser
+-
+-### Intellij Patch ###
+-# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+-
+-# *.iml
+-# modules.xml
+-# .idea/misc.xml
+-# *.ipr
+-
+-# Sonarlint plugin
+-# https://plugins.jetbrains.com/plugin/7973-sonarlint
+-.idea/**/sonarlint/
+-
+-# SonarQube Plugin
+-# https://plugins.jetbrains.com/plugin/7238-sonarqube-community-plugin
+-.idea/**/sonarIssues.xml
+-
+-# Markdown Navigator plugin
+-# https://plugins.jetbrains.com/plugin/7896-markdown-navigator-enhanced
+-.idea/**/markdown-navigator.xml
+-.idea/**/markdown-navigator-enh.xml
+-.idea/**/markdown-navigator/
+-
+-# Cache file creation bug
+-# See https://youtrack.jetbrains.com/issue/JBR-2257
+-.idea/$CACHE_FILE$
+-
+-# CodeStream plugin
+-# https://plugins.jetbrains.com/plugin/12206-codestream
+-.idea/codestream.xml
+-
+-### Java ###
+-# Compiled class file
+-*.class
+-
+-# Log file
+-*.log
+-
+-# BlueJ files
+-*.ctxt
+-
+-# Mobile Tools for Java (J2ME)
+-.mtj.tmp/
+-
+-# Package Files #
+-*.jar
+-*.war
+-*.nar
+-*.ear
+-*.zip
+-*.tar.gz
+-*.rar
+-
+-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+-hs_err_pid*
+-replay_pid*
+-
+-# End of https://www.toptal.com/developers/gitignore/api/java,intellij
++# 프로젝트 제외 경로
++/out/
+\ No newline at end of file
