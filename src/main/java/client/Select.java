@@ -1,4 +1,6 @@
 package client;
 
-public class Select {
+
+public interface Select {
+    void SelectMember();
 }

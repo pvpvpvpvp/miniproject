@@ -1,5 +1,5 @@
 package client;
 
-public interface ClientControl {
-
+public interface Join {
+    void JoinMember();
 }

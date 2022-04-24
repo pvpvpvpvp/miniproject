@@ -1,2 +1,5 @@
-package client;public interface UpdateMember {
+package client;
+
+public interface Update {
+    void UpdatePassword();
 }

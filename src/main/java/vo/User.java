@@ -1,5 +1,8 @@
-package user;
+package vo;
 
+import lombok.Data;
+
+@Data
 public class User {
 	//TODO : 유저 객체 만들기
 	private String id;

@@ -1,6 +1,6 @@
-package controller.server;
+package client;
 
-import user.User;
+import vo.User;
 
 import java.io.IOException;
 import java.util.Scanner;

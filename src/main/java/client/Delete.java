@@ -1,2 +1,5 @@
-package client;public interface Delete {
+package client;
+
+public interface Delete {
+    void DeleteMember();
 }
